@@ -3,9 +3,9 @@ import { createErr } from "../Utilis/error.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const registerUser = async (req,res)=>{
+export const registerUser = async (req,res,next)=>{
     try {
-
+        
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = bcrypt.hashSync(req.body.password, salt);
 
@@ -22,10 +22,7 @@ export const registerUser = async (req,res)=>{
             message: 'User Created Sucessfully'
         });
     } catch (error) {
-        res.status(500).json({
-            status_code: 500,
-            message: error.message
-        });
+        next(error);
     }
 };
 

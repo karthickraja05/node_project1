@@ -43,10 +43,12 @@ app.use('/api/user',userRoute);
 app.use('/api/todo',todoRoute);
 
 app.use((err,req,res,next)=>{
-    return res.status(err.status).json({
+    const status = err.status || 500;
+    const message = err.message || 'Something Went Wrong';
+    return res.status(status).json({
         success : false,
-        status : err.status,
-        message : err.message,
+        status : status,
+        message : message,
         stack: err.stack
     });
 });

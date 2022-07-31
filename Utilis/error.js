@@ -6,3 +6,9 @@ export const createErr = (status,message) => {
     
     return err;
 }
+
+export const createSuccess = (status,message) => {
+    return {
+        status , message
+    };
+}

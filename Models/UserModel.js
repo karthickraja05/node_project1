@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     user_name: {
         type: String,
-        unique: [true, "User name must be unique"],
-        required: [true,'User name is Required']
+        unique: [true, "must be unique"],
+        required: [true,'is Required']
     },
     email: {
         type: String,
