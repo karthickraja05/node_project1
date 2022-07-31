@@ -21,6 +21,7 @@ export const addTodo = async (req,res,next)=>{
 
 export const getTodos = async (req,res,next)=>{
     // console.log(req.user.unique_id);
+    // test
     try {
         const todoDatas = await Todo.find({ user_id: req.user.unique_id});
         console.log(todoDatas);

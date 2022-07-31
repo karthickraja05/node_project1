@@ -37,6 +37,7 @@ app.use(express.json());
 //     return res.status('500').json('Hello error from middle');
 // });
 
+// test
 
 
 app.use('/api/user',userRoute);
