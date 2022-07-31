@@ -23,7 +23,9 @@ export const testKar = (req,res,next) => {
 
 export const verify_user = (req,res,next) => {
     verify_token(req,res, async ()=>{
-        
+        console.log(req.user.unique_id);
+        if(!(req.user && req.user.unique_id)) return next(createErr(401,'You are not authenticate'));
+
         const userData = await User.findById(req.user.unique_id);
         if(!userData) next(createErr(401,'You are not authenticate'));
         console.log('Suceess Verify Token');
