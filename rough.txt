@@ -1,0 +1,12 @@
+Cheat Sheet - npm vs yarn
+// https://www.digitalocean.com/community/tutorials/nodejs-npm-yarn-cheatsheet
+
+important packages
+express
+nodemon
+jsonwebtoken
+mongoose
+bcryptjs
+dotenv
+
+karthick34 - 5uuOO3C0o2gqDINO
