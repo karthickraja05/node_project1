@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import userRoute from "./Routes/authRoute.js";
+import todoRoute from "./Routes/todoRoute.js";
 
 const app = express();
 dotenv.config();
@@ -27,5 +29,24 @@ app.listen(7000, ()=>{
     console.log('Connection success at port: 7000');
     connect_db();
 });
+app.use(cookieParser());
 app.use(express.json());
+
+// app.use((req,res,next)=>{
+//     console.log('Middle War Called 90');
+//     return res.status('500').json('Hello error from middle');
+// });
+
+
+
 app.use('/api/user',userRoute);
+app.use('/api/todo',todoRoute);
+
+app.use((err,req,res,next)=>{
+    return res.status(err.status).json({
+        success : false,
+        status : err.status,
+        message : err.message,
+        stack: err.stack
+    });
+});

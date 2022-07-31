@@ -1,4 +1,5 @@
 import User from "../Models/UserModel.js";
+import { createErr } from "../Utilis/error.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -28,25 +29,21 @@ export const registerUser = async (req,res)=>{
     }
 };
 
-export const loginUser = async (req,res)=>{
+export const loginUser = async (req,res,next)=>{
+    // return next(createErr('500','Something Went Wrong'));
+    
     try {
         const userData = await User.findOne({
             user_name : req.body.user_name,
         });
 
         if(!userData){
-            return res.status(200).json({
-                status_code: 0,
-                message: 'User name not found'
-            });
+            return next(createErr(400,'User Not found'))
         }
         
         const passwordVerify = await bcrypt.compareSync(req.body.password, userData.password);
         if(!passwordVerify){
-            return res.status(200).json({
-                status_code: 0,
-                message: 'Invalide Passwrod'
-            });
+            return next(createErr(400,'Invalid Password'))
         }
         // console.log(userData);
         const token = jwt.sign({
@@ -54,11 +51,6 @@ export const loginUser = async (req,res)=>{
             isAdmin: userData.isAdmin,
         },process.env.JWT);
         
-        // return res.status(200).json({
-        //     status_code: 1,
-        //     message: 'Success Response'
-        // });
-
         return res.cookie("access_token",token,{
             httpOnly: true,
         }).status(200).json({
@@ -67,9 +59,6 @@ export const loginUser = async (req,res)=>{
         });
         
     } catch (error) {
-        res.status(500).json({
-            status_code: 500,
-            message: error.message
-        });
+        next(error);
     }
 };
